@@ -129,7 +129,7 @@ const OwnerForm: React.FC<{ isOpen: boolean, onClose: () => void, owner: Owner |
 
                 <div className="flex justify-end gap-3 pt-6 mt-6 border-t border-border">
                     <button type="button" onClick={onClose} className="btn btn-ghost">إلغاء</button>
-                    <button type="submit" className="btn btn-primary">حفظ</button>
+                    <button type="submit" className="btn bg-primary text-primary-foreground hover:bg-primary/90">حفظ</button>
                 </div>
             </form>
         </Modal>

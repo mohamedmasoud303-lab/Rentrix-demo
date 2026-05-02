@@ -99,76 +99,91 @@ const Contracts: React.FC = () => {
     const { contracts, stats } = contractsData;
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-6 animate-in fade-in duration-700">
             <PageHeader title="إدارة العقود" description="عرض وتعديل جميع عقود الإيجار في النظام." />
-             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                 <SummaryStatCard label="العقود النشطة" value={stats.active} icon={<FileText size={24}/>} color="info"/>
                 <SummaryStatCard label="إجمالي الإيجارات الشهرية" value={formatCurrency(stats.totalRent)} icon={<DollarSign size={24}/>} color="success"/>
                 <SummaryStatCard label="عقود تنتهي قريباً" value={stats.expiring} icon={<Clock size={24}/>} color={stats.expiring > 0 ? 'warning' : 'success'}/>
                 <SummaryStatCard label="إجمالي المتأخرات" value={formatCurrency(stats.overdueBalance)} icon={<AlertTriangle size={24}/>} color={stats.overdueBalance > 0 ? 'danger' : 'success'}/>
             </div>
-            <Card>
-                <div className="flex justify-between items-center mb-4">
-                    <h2 className="text-xl font-bold">قائمة العقود (مرتبة حسب الأولوية)</h2>
+            <Card className="p-6 border-border/50">
+                <div className="mb-6">
+                    <TableControls
+                        searchTerm={searchTerm}
+                        onSearchChange={setSearchTerm}
+                        onAdd={() => handleOpenModal()}
+                        addLabel="صياغة عقد جديد"
+                        onPrint={() => window.print()}
+                        filterOptions={[
+                            { value: 'ALL', label: 'الكل' },
+                            { value: 'ACTIVE', label: 'نشط' },
+                            { value: 'ENDED', label: 'منتهي' },
+                            { value: 'SUSPENDED', label: 'معلق' }
+                        ]}
+                        activeFilter={statusFilter}
+                        onFilterChange={setStatusFilter}
+                    />
                 </div>
                 
-                <TableControls
-                    searchTerm={searchTerm}
-                    onSearchChange={setSearchTerm}
-                    onAdd={() => handleOpenModal()}
-                    addLabel="إضافة عقد"
-                    onPrint={() => window.print()}
-                    filterOptions={[
-                        { value: 'ALL', label: 'الكل' },
-                        { value: 'ACTIVE', label: 'نشط' },
-                        { value: 'ENDED', label: 'منتهي' },
-                        { value: 'SUSPENDED', label: 'معلق' }
-                    ]}
-                    activeFilter={statusFilter}
-                    onFilterChange={setStatusFilter}
-                />
-                
-                <div className="overflow-x-auto mt-4">
-                    <table className="w-full responsive-table">
-                        <thead>
+                <div className="overflow-x-auto rounded-xl border border-border/50">
+                    <table className="w-full text-sm">
+                        <thead className="bg-muted/30 text-muted-foreground font-semibold">
                             <tr>
-                                <th>الوحدة / المستأجر</th>
-                                <th>الإيجار</th>
-                                <th>الفترة</th>
-                                <th>الرصيد المستحق</th>
-                                <th>الحالة</th>
-                                <th className="text-left">الإجراء السريع</th>
+                                <th className="px-4 py-3 text-start">الوحدة / المستأجر</th>
+                                <th className="px-4 py-3 text-start">الإيجار</th>
+                                <th className="px-4 py-3 text-start">الفترة</th>
+                                <th className="px-4 py-3 text-start">الرصيد المستحق</th>
+                                <th className="px-4 py-3 text-start">الحالة</th>
+                                <th className="px-4 py-3 text-end">الإجراءات</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody className="divide-y divide-border/50">
                             {contracts.map(c => {
                                 const unit = db.units.find(u => u.id === c.unitId);
                                 const tenant = db.tenants.find(t => t.id === c.tenantId);
                                 return (
-                                    <tr key={c.id} className={`group ${c.risk === 'high' ? 'bg-danger-foreground' : c.risk === 'medium' ? 'bg-warning-foreground' : ''}`}>
-                                        <td data-label="الوحدة/المستأجر" className="font-medium text-heading whitespace-nowrap">
-                                            <div>{unit?.name}</div>
-                                            <div className="text-xs text-muted-foreground">{tenant?.name}</div>
+                                    <tr key={c.id} className={`hover:bg-muted/10 transition-colors group ${c.risk === 'high' ? 'bg-danger/5 border-l-2 border-l-danger' : c.risk === 'medium' ? 'bg-warning/5 border-l-2 border-l-warning' : ''}`}>
+                                        <td className="px-4 py-3">
+                                            <div className="font-bold text-heading whitespace-nowrap">{unit?.name || 'غير معروف'}</div>
+                                            <div className="text-xs text-muted-foreground mt-1 flex items-center gap-1">
+                                                <div className="w-4 h-4 rounded bg-primary/10 flex items-center justify-center"><FileText size={10} className="text-primary"/></div> 
+                                                {tenant?.name || 'مستأجر غير معروف'}
+                                            </div>
                                         </td>
-                                        <td data-label="الإيجار">{formatCurrency(c.rent, db.settings.currency)}</td>
-                                        <td data-label="الفترة" className="text-muted-foreground text-sm">{toArabicDigits(c.start)} ← {toArabicDigits(c.end)}</td>
-                                        <td data-label="الرصيد" className={`font-bold ${c.balance > 0 ? 'text-danger' : 'text-foreground'}`}>{formatCurrency(c.balance, db.settings.currency)}</td>
-                                        <td data-label="الحالة"><StatusPill status={c.status}>{c.status === 'ACTIVE' ? 'نشط' : (c.status === 'ENDED' ? 'منتهي' : 'معلق')}</StatusPill></td>
-                                        <td data-label="إجراء سريع" className="action-cell">
+                                        <td className="px-4 py-3 font-mono font-medium">{formatCurrency(c.rent, db.settings.currency)}</td>
+                                        <td className="px-4 py-3 text-muted-foreground text-xs whitespace-nowrap">
+                                            <div>من: {toArabicDigits(c.start)}</div>
+                                            <div>إلى: {toArabicDigits(c.end)}</div>
+                                        </td>
+                                        <td className={`px-4 py-3 font-bold font-mono ${c.balance > 0 ? 'text-danger' : 'text-heading'}`}>
+                                            {formatCurrency(c.balance, db.settings.currency)}
+                                        </td>
+                                        <td className="px-4 py-3">
+                                            <StatusPill status={c.status}>{c.status === 'ACTIVE' ? 'نشط' : (c.status === 'ENDED' ? 'منتهي' : 'معلق')}</StatusPill>
+                                        </td>
+                                        <td className="px-4 py-3">
                                             <div className="flex items-center justify-end gap-2">
-                                                {c.balance > 0 && <button onClick={() => navigate('/financials')} className="btn btn-danger btn-sm flex items-center gap-1"><DollarSign size={14}/> تحصيل</button>}
-                                                {c.isExpiring && <button className="btn btn-warning btn-sm flex items-center gap-1"><Repeat size={14}/> تجديد</button>}
-                                                <div className="opacity-0 group-hover:opacity-100 transition-opacity">
-                                                    <ActionsMenu items={[ EditAction(() => handleOpenModal(c)), PrintAction(() => handlePrint(c.id)), DeleteAction(() => handleDelete(c.id)),]} />
-                                                </div>
+                                                {c.balance > 0 && <button onClick={() => navigate('/financials')} className="btn text-danger bg-danger/10 hover:bg-danger/20 btn-sm flex items-center gap-1 px-2 py-1"><DollarSign size={14}/> تحصيل</button>}
+                                                {c.isExpiring && <button className="btn text-warning bg-warning/10 hover:bg-warning/20 btn-sm flex items-center gap-1 px-2 py-1"><Repeat size={14}/> تجديد</button>}
+                                                <ActionsMenu items={[ EditAction(() => handleOpenModal(c)), PrintAction(() => handlePrint(c.id)), DeleteAction(() => handleDelete(c.id)),]} />
                                             </div>
                                         </td>
                                     </tr>
                                 );
                             })}
+                            {contracts.length === 0 && (
+                                <tr>
+                                    <td colSpan={6} className="px-4 py-12 text-center text-muted-foreground">
+                                        <div className="flex flex-col items-center justify-center">
+                                            <FileText size={32} className="text-muted-foreground/50 mb-2" />
+                                            <p>لا توجد عقود مطابقة للبحث.</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            )}
                         </tbody>
                     </table>
-                    {contracts.length === 0 && <div className="text-center py-12 text-muted-foreground">لا توجد عقود مطابقة للبحث.</div>}
                 </div>
             </Card>
             <ContractForm isOpen={isModalOpen} onClose={handleCloseModal} contract={editingContract} defaultUnitId={defaultUnitId} />

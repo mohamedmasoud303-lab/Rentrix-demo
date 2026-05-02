@@ -38,11 +38,11 @@ const ManualJournalVoucherForm: React.FC<ManualJournalVoucherFormProps> = ({ isO
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label className="text-xs font-bold block mb-1">تاريخ القيد</label>
-                        <input type="date" value={date} onChange={e => setDate(e.target.value)} required className="w-full p-2 border rounded-md" />
+                        <input type="date" value={date} onChange={e => setDate(e.target.value)} required className="input-field" />
                     </div>
                     <div>
                         <label className="text-xs font-bold block mb-1">البيان العام</label>
-                        <input value={notes} onChange={e => setNotes(e.target.value)} placeholder="وصف العملية المحاسبية" required className="w-full p-2 border rounded-md" />
+                        <input value={notes} onChange={e => setNotes(e.target.value)} placeholder="وصف العملية المحاسبية" required className="input-field" />
                     </div>
                 </div>
                 <div className="space-y-2">
@@ -66,7 +66,7 @@ const ManualJournalVoucherForm: React.FC<ManualJournalVoucherFormProps> = ({ isO
                 </div>
                 <div className="flex justify-end gap-2 pt-4 border-t">
                     <button type="button" onClick={onClose} className="btn btn-ghost">إلغاء</button>
-                    <button type="submit" className="btn btn-primary" disabled={!isBalanced}>حفظ وترحيل القيد</button>
+                    <button type="submit" className="btn bg-primary text-primary-foreground hover:bg-primary/90" disabled={!isBalanced}>حفظ وترحيل القيد</button>
                 </div>
             </form>
         </Modal>

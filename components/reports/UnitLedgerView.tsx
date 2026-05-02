@@ -32,25 +32,25 @@ const UnitLedgerView: React.FC = () => {
             <div className="no-print bg-neutral/5 p-6 rounded-xl border border-border grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
                 <div className="space-y-2">
                     <label className="text-xs font-bold flex items-center gap-2"><Building className="w-3 h-3"/> العقار</label>
-                    <select value={propertyId} onChange={e => { setPropertyId(e.target.value); setUnitId(''); }} className="w-full p-2 border rounded-md">
+                    <select value={propertyId} onChange={e => { setPropertyId(e.target.value); setUnitId(''); }} className="input-field">
                         <option value="">اختر العقار...</option>
                         {db?.properties.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
                     </select>
                 </div>
                 <div className="space-y-2">
                     <label className="text-xs font-bold flex items-center gap-2"><Home className="w-3 h-3"/> الوحدة</label>
-                    <select value={unitId} onChange={e => setUnitId(e.target.value)} className="w-full p-2 border rounded-md" disabled={!propertyId}>
+                    <select value={unitId} onChange={e => setUnitId(e.target.value)} className="input-field" disabled={!propertyId}>
                         <option value="">اختر الوحدة...</option>
                         {units.map(u => <option key={u.id} value={u.id}>{u.name}</option>)}
                     </select>
                 </div>
                 <div className="space-y-2">
                     <label className="text-xs font-bold flex items-center gap-2"><Calendar className="w-3 h-3"/> من تاريخ</label>
-                    <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} className="w-full p-2 border rounded-md" />
+                    <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} className="input-field" />
                 </div>
                 <div className="space-y-2">
                     <label className="text-xs font-bold flex items-center gap-2"><Calendar className="w-3 h-3"/> إلى تاريخ</label>
-                    <input type="date" value={endDate} onChange={e => setEndDate(e.target.value)} className="w-full p-2 border rounded-md" />
+                    <input type="date" value={endDate} onChange={e => setEndDate(e.target.value)} className="input-field" />
                 </div>
             </div>
 

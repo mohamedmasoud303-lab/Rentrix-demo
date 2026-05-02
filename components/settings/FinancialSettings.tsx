@@ -33,7 +33,7 @@ const FinancialSettings: React.FC = () => {
     };
 
     return (
-        <Card className="max-w-3xl">
+        <Card className="max-w-3xl border-border/50 p-6">
             <div className="space-y-10">
                 <div>
                     <h2 className="text-xl font-black flex items-center gap-2 mb-6">
@@ -41,20 +41,20 @@ const FinancialSettings: React.FC = () => {
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <label className="text-sm font-medium block mb-1">نسبة ضريبة القيمة المضافة (%)</label>
+                            <label className="text-sm font-bold block mb-1 text-heading">نسبة ضريبة القيمة المضافة (%)</label>
                             <input 
                                 type="number" 
                                 value={taxRate} 
                                 onChange={e => setTaxRate(Number(e.target.value))} 
-                                className="w-full p-2 border rounded-md" 
+                                className="input-field" 
                             />
                         </div>
                         <div>
-                            <label className="text-sm font-medium block mb-1">العملة الأساسية للنظام</label>
+                            <label className="text-sm font-bold block mb-1 text-heading">العملة الأساسية للنظام</label>
                             <select 
                                 value={currency} 
                                 onChange={e => setCurrency(e.target.value as "OMR" | "SAR" | "EGP")} 
-                                className="w-full p-2 border rounded-md"
+                                className="input-field"
                             >
                                 <option value="OMR">ريال عماني (OMR)</option>
                                 <option value="SAR">ريال سعودي (SAR)</option>
@@ -62,7 +62,7 @@ const FinancialSettings: React.FC = () => {
                             </select>
                         </div>
                     </div>
-                    <button onClick={handleSave} className="btn btn-primary w-fit mt-6">حفظ الإعدادات</button>
+                    <button onClick={handleSave} className="btn bg-primary text-primary-foreground hover:bg-primary/90 w-fit mt-6">حفظ الإعدادات</button>
                 </div>
 
                  <div className="p-6 border-2 border-dashed border-danger/30 rounded-2xl bg-danger/5">
@@ -74,15 +74,15 @@ const FinancialSettings: React.FC = () => {
                     </p>
                     <div className="flex flex-col sm:flex-row items-end gap-4">
                         <div className="flex-grow w-full">
-                            <label className="text-[10px] font-black uppercase tracking-widest block mb-1">إقفال جميع الحركات حتى تاريخ:</label>
+                            <label className="text-[10px] font-bold uppercase tracking-widest block mb-1 text-heading">إقفال جميع الحركات حتى تاريخ:</label>
                             <input 
                                 type="date" 
                                 value={lockDate} 
                                 onChange={e => setLockDate(e.target.value)} 
-                                className="w-full p-2 border rounded-md" 
+                                className="input-field" 
                             />
                         </div>
-                        <button onClick={handleLock} className="btn btn-danger w-full sm:w-auto">تأكيد القفل</button>
+                        <button onClick={handleLock} className="btn bg-danger text-danger-foreground hover:bg-danger/90 w-full sm:w-auto">تأكيد القفل</button>
                     </div>
                 </div>
             </div>

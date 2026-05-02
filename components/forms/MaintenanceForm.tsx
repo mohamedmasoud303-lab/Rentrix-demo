@@ -118,7 +118,7 @@ const MaintenanceForm: React.FC<MaintenanceFormProps> = ({ isOpen, onClose, reco
                             value={data.unitId} 
                             onChange={handleChange} 
                             required
-                            className="w-full p-2 border rounded-md"
+                            className="input-field"
                         >
                             {db.units.map(u => (
                                 <option key={u.id} value={u.id}>
@@ -135,7 +135,7 @@ const MaintenanceForm: React.FC<MaintenanceFormProps> = ({ isOpen, onClose, reco
                             value={data.requestDate} 
                             onChange={handleChange} 
                             required 
-                            className="w-full p-2 border rounded-md"
+                            className="input-field"
                         />
                     </div>
                  </div>
@@ -149,7 +149,7 @@ const MaintenanceForm: React.FC<MaintenanceFormProps> = ({ isOpen, onClose, reco
                         required 
                         rows={3} 
                         placeholder="وصف المشكلة أو الطلب" 
-                        className="w-full p-2 border rounded-md"
+                        className="input-field"
                     />
                  </div>
 
@@ -160,7 +160,7 @@ const MaintenanceForm: React.FC<MaintenanceFormProps> = ({ isOpen, onClose, reco
                             name="status" 
                             value={data.status} 
                             onChange={handleChange}
-                            className="w-full p-2 border rounded-md"
+                            className="input-field"
                         >
                             <option value="NEW">جديد</option>
                             <option value="IN_PROGRESS">قيد التنفيذ</option>
@@ -176,7 +176,7 @@ const MaintenanceForm: React.FC<MaintenanceFormProps> = ({ isOpen, onClose, reco
                             value={data.cost || ''} 
                             onChange={handleChange} 
                             placeholder="0.00"
-                            className="w-full p-2 border rounded-md"
+                            className="input-field"
                         />
                     </div>
                     <div className="space-y-2">
@@ -185,7 +185,7 @@ const MaintenanceForm: React.FC<MaintenanceFormProps> = ({ isOpen, onClose, reco
                             name="chargedTo" 
                             value={data.chargedTo} 
                             onChange={handleChange}
-                            className="w-full p-2 border rounded-md"
+                            className="input-field"
                         >
                             <option value="OWNER">المالك</option>
                             <option value="OFFICE">المكتب</option>
@@ -196,7 +196,7 @@ const MaintenanceForm: React.FC<MaintenanceFormProps> = ({ isOpen, onClose, reco
 
                 <div className="flex justify-end gap-3 pt-4 mt-4 border-t border-border">
                     <button type="button" onClick={onClose} className="btn btn-ghost">إلغاء</button>
-                    <button type="submit" className="btn btn-primary">حفظ</button>
+                    <button type="submit" className="btn bg-primary text-primary-foreground hover:bg-primary/90">حفظ</button>
                 </div>
             </form>
         </Modal>

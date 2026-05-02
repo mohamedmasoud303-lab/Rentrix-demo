@@ -45,7 +45,7 @@ const OwnerSettlementForm: React.FC<OwnerSettlementFormProps> = ({ isOpen, onClo
                         value={ownerId} 
                         onChange={e => setOwnerId(e.target.value)} 
                         required
-                        className="w-full p-2 border rounded-md"
+                        className="input-field"
                     >
                         {db.owners.map(o => (
                             <option key={o.id} value={o.id}>{o.name}</option>
@@ -59,7 +59,7 @@ const OwnerSettlementForm: React.FC<OwnerSettlementFormProps> = ({ isOpen, onClo
                         value={date} 
                         onChange={e => setDate(e.target.value)} 
                         required 
-                        className="w-full p-2 border rounded-md"
+                        className="input-field"
                     />
                 </div>
                 <div>
@@ -70,7 +70,7 @@ const OwnerSettlementForm: React.FC<OwnerSettlementFormProps> = ({ isOpen, onClo
                         onChange={e => setAmount(Number(e.target.value))} 
                         required 
                         placeholder="المبلغ المودع في حساب المالك" 
-                        className="w-full p-2 border rounded-md"
+                        className="input-field"
                     />
                 </div>
                 <div>
@@ -79,10 +79,10 @@ const OwnerSettlementForm: React.FC<OwnerSettlementFormProps> = ({ isOpen, onClo
                         value={notes} 
                         onChange={e => setNotes(e.target.value)} 
                         placeholder="مثال: تحويل صافي إيرادات شهر مايو" 
-                        className="w-full p-2 border rounded-md"
+                        className="input-field"
                     />
                 </div>
-                <button type="submit" className="btn btn-primary w-full mt-4">حفظ وإثبات التحويل</button>
+                <button type="submit" className="btn bg-primary text-primary-foreground hover:bg-primary/90 w-full mt-4">حفظ وإثبات التحويل</button>
             </form>
         </Modal>
     );

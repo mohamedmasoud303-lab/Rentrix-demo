@@ -18,10 +18,10 @@ const ExportButtons: React.FC<ExportButtonsProps> = ({ data, filename, onPrint }
 
     return (
         <div className="flex items-center gap-2 no-print">
-            <button onClick={onPrint} className="btn btn-secondary flex items-center gap-2 text-xs">
+            <button onClick={onPrint} className="btn bg-secondary text-secondary-foreground hover:bg-secondary/90 flex items-center gap-2 text-xs">
                 <Printer className="w-4 h-4" /> طباعة PDF
             </button>
-            <button onClick={exportToExcel} className="btn btn-secondary flex items-center gap-2 text-xs">
+            <button onClick={exportToExcel} className="btn bg-secondary text-secondary-foreground hover:bg-secondary/90 flex items-center gap-2 text-xs">
                 <Download className="w-4 h-4" /> تصدير Excel
             </button>
         </div>

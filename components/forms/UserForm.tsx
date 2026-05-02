@@ -49,32 +49,32 @@ const UserForm: React.FC<UserFormProps> = ({ isOpen, onClose, user }) => {
         <Modal isOpen={isOpen} onClose={onClose} title={user ? 'تعديل المستخدم' : 'إضافة مستخدم جديد'}>
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                    <label className="text-sm font-medium block mb-1">اسم المستخدم</label>
+                    <label className="text-sm font-bold block mb-1 text-heading">اسم المستخدم</label>
                     <input 
                         value={username} 
                         onChange={e => setUsername(e.target.value)} 
                         required 
-                        className="w-full p-2 border rounded-md"
+                        className="input-field"
                     />
                 </div>
                 {!user && (
                     <div>
-                        <label className="text-sm font-medium block mb-1">كلمة المرور المؤقتة</label>
+                        <label className="text-sm font-bold block mb-1 text-heading">كلمة المرور المؤقتة</label>
                         <input 
                             type="password" 
                             value={password} 
                             onChange={e => setPassword(e.target.value)} 
                             required 
-                            className="w-full p-2 border rounded-md"
+                            className="input-field"
                         />
                     </div>
                 )}
                 <div>
-                    <label className="text-sm font-medium block mb-1">الرتبة / الصلاحيات</label>
+                    <label className="text-sm font-bold block mb-1 text-heading">الرتبة / الصلاحيات</label>
                     <select 
                         value={role} 
                         onChange={e => setRole(e.target.value as UserRole)} 
-                        className="w-full p-2 border rounded-md"
+                        className="input-field"
                     >
                         <option value="USER">موظف عادي</option>
                         <option value="MANAGER">مشرف عمليات</option>
@@ -83,7 +83,7 @@ const UserForm: React.FC<UserFormProps> = ({ isOpen, onClose, user }) => {
                 </div>
                 <div className="flex justify-end gap-2 pt-4 border-t mt-6">
                     <button type="button" onClick={onClose} className="btn btn-ghost">إلغاء</button>
-                    <button type="submit" className="btn btn-primary">حفظ البيانات</button>
+                    <button type="submit" className="btn bg-primary text-primary-foreground hover:bg-primary/90">حفظ البيانات</button>
                 </div>
             </form>
         </Modal>

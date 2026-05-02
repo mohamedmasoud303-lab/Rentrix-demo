@@ -118,7 +118,7 @@ const InvoiceForm: React.FC<{ isOpen: boolean, onClose: () => void, invoice: Inv
                 {!isReadOnly && (
                     <div className="flex justify-end gap-3 pt-4 mt-4 border-t border-border">
                         <button type="button" onClick={onClose} className="btn btn-ghost">إلغاء</button>
-                        <button type="submit" className="btn btn-primary" disabled={!activeContractForUnit}>حفظ</button>
+                        <button type="submit" className="btn bg-primary text-primary-foreground hover:bg-primary/90" disabled={!activeContractForUnit}>حفظ</button>
                     </div>
                 )}
             </form>

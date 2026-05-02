@@ -37,7 +37,7 @@ const DepositTxForm: React.FC<DepositTxFormProps> = ({ isOpen, onClose }) => {
                         value={contractId} 
                         onChange={e => setContractId(e.target.value)} 
                         required
-                        className="w-full p-2 border rounded-md"
+                        className="input-field"
                     >
                         {db.contracts.map(c => (
                             <option key={c.id} value={c.id}>
@@ -51,7 +51,7 @@ const DepositTxForm: React.FC<DepositTxFormProps> = ({ isOpen, onClose }) => {
                     <select 
                         value={type} 
                         onChange={e => setType(e.target.value as any)}
-                        className="w-full p-2 border rounded-md"
+                        className="input-field"
                     >
                         <option value="DEPOSIT_IN">إيداع مبلغ تأمين جديد</option>
                         <option value="DEPOSIT_RETURN">إرجاع التأمين للمستأجر</option>
@@ -66,7 +66,7 @@ const DepositTxForm: React.FC<DepositTxFormProps> = ({ isOpen, onClose }) => {
                         onChange={e => setAmount(Number(e.target.value))} 
                         required 
                         placeholder="0.000" 
-                        className="w-full p-2 border rounded-md"
+                        className="input-field"
                     />
                 </div>
                 <div>
@@ -75,10 +75,10 @@ const DepositTxForm: React.FC<DepositTxFormProps> = ({ isOpen, onClose }) => {
                         value={note} 
                         onChange={e => setNote(e.target.value)} 
                         placeholder="مثال: تأمين عقد جديد، خصم تلفيات صبغ" 
-                        className="w-full p-2 border rounded-md"
+                        className="input-field"
                     />
                 </div>
-                <button type="submit" className="btn btn-primary w-full mt-4">تأكيد الحركة المالية</button>
+                <button type="submit" className="btn bg-primary text-primary-foreground hover:bg-primary/90 w-full mt-4">تأكيد الحركة المالية</button>
             </form>
         </Modal>
     );

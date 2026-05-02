@@ -103,7 +103,7 @@ const LeadForm: React.FC<{ isOpen: boolean, onClose: () => void, lead: Lead | nu
                 </div>
                  <div className="flex justify-end gap-3 pt-4 border-t border-border mt-4">
                     <button type="button" onClick={onClose} className="btn btn-ghost">إلغاء</button>
-                    <button type="submit" className="btn btn-primary">حفظ</button>
+                    <button type="submit" className="btn bg-primary text-primary-foreground hover:bg-primary/90">حفظ</button>
                 </div>
             </form>
         </Modal>

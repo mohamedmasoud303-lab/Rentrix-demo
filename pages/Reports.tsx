@@ -34,7 +34,7 @@ const Reports: React.FC = () => {
     };
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-6 animate-in fade-in duration-700">
             {!activeTab ? (
                 <>
                     <PageHeader title="مركز التقارير" description="تقارير تحليلية شاملة للتدقيق والرقابة المالية." />
@@ -52,7 +52,7 @@ const Reports: React.FC = () => {
                     <button onClick={() => handleTabChange(null)} className="flex items-center gap-2 text-xs font-bold text-muted-foreground hover:text-primary transition-colors">
                         العودة لمركز التقارير
                     </button>
-                    <Card className="min-h-[600px] p-0 overflow-hidden">
+                    <Card className="min-h-[600px] border-border/50">
                         {activeTab === 'owner' && <OwnerStatementView />}
                         {activeTab === 'tenant' && <TenantStatementView />}
                         {activeTab === 'unit_ledger' && <UnitLedgerView />}

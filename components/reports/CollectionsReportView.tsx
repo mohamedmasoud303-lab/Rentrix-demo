@@ -24,11 +24,11 @@ const CollectionsReportView: React.FC = () => {
             <div className="no-print bg-neutral/5 p-6 rounded-xl border border-border grid grid-cols-1 md:grid-cols-2 gap-4 items-end">
                 <div className="space-y-2">
                     <label className="text-xs font-bold flex items-center gap-2"><Calendar className="w-3 h-3"/> من تاريخ</label>
-                    <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} className="w-full p-2 border rounded-md" />
+                    <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} className="input-field" />
                 </div>
                 <div className="space-y-2">
                     <label className="text-xs font-bold flex items-center gap-2"><Calendar className="w-3 h-3"/> إلى تاريخ</label>
-                    <input type="date" value={endDate} onChange={e => setEndDate(e.target.value)} className="w-full p-2 border rounded-md" />
+                    <input type="date" value={endDate} onChange={e => setEndDate(e.target.value)} className="input-field" />
                 </div>
             </div>
 

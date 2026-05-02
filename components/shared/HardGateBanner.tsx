@@ -30,7 +30,7 @@ const HardGateBanner: React.FC = () => {
                     </p>
                 </div>
             </div>
-            <Link to="/data-integrity" className="btn btn-secondary flex-shrink-0">
+            <Link to="/data-integrity" className="btn bg-secondary text-secondary-foreground hover:bg-secondary/90 flex-shrink-0">
                 عرض التفاصيل والإصلاح
             </Link>
         </div>

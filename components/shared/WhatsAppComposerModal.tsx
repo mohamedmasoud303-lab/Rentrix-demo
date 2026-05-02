@@ -119,7 +119,7 @@ export const WhatsAppComposerModal: React.FC<WhatsAppComposerModalProps> = ({ is
                     <button
                         type="button"
                         onClick={handleSend}
-                        className="btn btn-primary flex items-center gap-2"
+                        className="btn bg-primary text-primary-foreground hover:bg-primary/90 flex items-center gap-2"
                     >
                         <Send size={16} />
                         إرسال عبر واتساب

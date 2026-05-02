@@ -17,7 +17,7 @@ const JournalEntriesView: React.FC = () => {
         <div>
             <div className="flex justify-between items-center mb-4">
                 <h2 className="text-xl font-bold">دفتر اليومية العام</h2>
-                <button onClick={() => setIsModalOpen(true)} className="btn btn-primary flex items-center gap-2"><PlusCircle size={16} /> إضافة قيد يدوي</button>
+                <button onClick={() => setIsModalOpen(true)} className="btn bg-primary text-primary-foreground hover:bg-primary/90 flex items-center gap-2"><PlusCircle size={16} /> إضافة قيد يدوي</button>
             </div>
             <div className="overflow-x-auto">
                 <table className="responsive-table">

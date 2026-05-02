@@ -100,75 +100,98 @@ const Invoices: React.FC = () => {
     }, [db, activeFilter, searchTerm]);
 
     return (
-        <div className="space-y-6">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="space-y-6 animate-in fade-in duration-700">
+            <div className="flex flex-wrap justify-between items-center mb-4 gap-4">
+                <PageHeader title="المطالبات المالية" description="متابعة وإصدار الفواتير، وتحصيل المستحقات وإدارة المتأخرات." className="mb-0" />
+                <button onClick={handleGenerateInvoices} disabled={isMonthlyLoading} className="btn bg-primary text-primary-foreground hover:bg-primary/90 flex items-center gap-2 shadow-sm">
+                    {isMonthlyLoading ? <RefreshCw size={16} className="animate-spin" /> : <RefreshCw size={16} />}
+                    {isMonthlyLoading ? 'جاري الإصدار...' : 'إصدار الفواتير الآلي'}
+                </button>
+            </div>
+
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                 <SummaryStatCard label="إجمالي المتأخرات" value={formatCurrency(summaryData.overdueAmount)} icon={<AlertTriangle size={24}/>} color="danger"/>
                 <SummaryStatCard label="عدد الفواتير المتأخرة" value={summaryData.overdueCount} icon={<Hash size={24}/>} color="danger"/>
                 <SummaryStatCard label="مستحق (غير متأخر)" value={formatCurrency(summaryData.unpaidAmount)} icon={<DollarSign size={24}/>} color="warning"/>
                 <SummaryStatCard label="متوسط أيام التأخير" value={summaryData.avgOverdueDays.toFixed(0)} icon={<Clock size={24}/>} color="warning"/>
             </div>
             
-            <div className="flex flex-wrap justify-between items-center mb-4 gap-4">
-                <h2 className="text-xl font-bold">الفواتير والمطالبات المالية</h2>
-                <button onClick={handleGenerateInvoices} disabled={isMonthlyLoading} className="btn btn-primary flex items-center gap-2">
-                    {isMonthlyLoading && <RefreshCw size={16} className="animate-spin" />} {isMonthlyLoading ? 'جاري...' : 'إصدار الفواتير الآلي'}
-                </button>
-            </div>
+            <Card className="p-6 border-border/50">
+                <div className="mb-6">
+                    <TableControls
+                        searchTerm={searchTerm}
+                        onSearchChange={setSearchTerm}
+                        onAdd={() => { setEditingInvoice(null); setIsModalOpen(true); }}
+                        addLabel="إضافة فاتورة يدوية"
+                        onPrint={() => window.print()}
+                        filterOptions={filters}
+                        activeFilter={activeFilter}
+                        onFilterChange={handleFilterChange}
+                    />
+                </div>
 
-            <TableControls
-                searchTerm={searchTerm}
-                onSearchChange={setSearchTerm}
-                onAdd={() => { setEditingInvoice(null); setIsModalOpen(true); }}
-                addLabel="إضافة فاتورة"
-                onPrint={() => window.print()}
-                filterOptions={filters}
-                activeFilter={activeFilter}
-                onFilterChange={handleFilterChange}
-            />
-
-            <div className="overflow-x-auto mt-4">
-                <table className="responsive-table">
-                    <thead>
-                        <tr>
-                            <th>#</th><th>المستأجر / الوحدة</th><th>النوع</th><th>تاريخ الاستحقاق</th><th>المبلغ</th><th>الحالة</th><th className="text-left">إجراء سريع</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {invoicesWithDetails.map(inv => {
-                            const balance = inv.amount + (inv.taxAmount || 0) - inv.paidAmount;
-                            return (
-                            <tr key={inv.id} className={`group ${inv.status === 'PAID' ? 'opacity-60' : ''} ${inv.status === 'OVERDUE' ? 'bg-danger-foreground' : ''}`}>
-                                <td className="font-mono text-xs">{inv.no}</td>
-                                <td><div className="font-bold">{inv.tenant?.name}</div><div className="text-[10px] text-muted-foreground">{inv.unit?.name}</div></td>
-                                <td className="text-xs">{inv.type}</td>
-                                <td className="text-xs">{formatDate(inv.dueDate)}</td>
-                                <td><div className="font-mono font-bold">{formatCurrency(inv.amount + (inv.taxAmount || 0))}</div>{balance > 0 && <div className="text-[9px] text-danger">متبقي: {formatCurrency(balance)}</div>}</td>
-                                <td><StatusPill status={inv.status}>{getInvoiceStatusLabel(inv.status)}</StatusPill></td>
-                                <td className="text-left">
-                                    <div className="flex items-center justify-end gap-2">
-                                        {inv.status !== 'PAID' && (
-                                            <button 
-                                                onClick={() => navigate(`/financials?tab=receipts&action=add&invoiceId=${inv.id}`)}
-                                                className="btn btn-sm btn-success flex items-center gap-1 text-[10px]"
-                                            >
-                                                <DollarSign size={12}/> تحصيل
-                                            </button>
-                                        )}
-                                        <div className="opacity-0 group-hover:opacity-100 transition-opacity">
+                <div className="overflow-x-auto rounded-xl border border-border/50">
+                    <table className="w-full text-sm">
+                        <thead className="bg-muted/30 text-muted-foreground font-semibold">
+                            <tr>
+                                <th className="px-4 py-3 text-start">رقم الفاتورة</th>
+                                <th className="px-4 py-3 text-start">المستأجر / الوحدة</th>
+                                <th className="px-4 py-3 text-start">النوع</th>
+                                <th className="px-4 py-3 text-start">تاريخ الاستحقاق</th>
+                                <th className="px-4 py-3 text-start">المبلغ</th>
+                                <th className="px-4 py-3 text-start">الحالة</th>
+                                <th className="px-4 py-3 text-end">الإجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody className="divide-y divide-border/50">
+                            {invoicesWithDetails.map(inv => {
+                                const balance = inv.amount + (inv.taxAmount || 0) - inv.paidAmount;
+                                return (
+                                <tr key={inv.id} className={`hover:bg-muted/10 transition-colors group ${inv.status === 'PAID' ? 'opacity-60' : ''} ${inv.status === 'OVERDUE' ? 'bg-danger/5 border-l-2 border-l-danger' : ''}`}>
+                                    <td className="px-4 py-3 font-mono text-xs font-bold">{inv.no}</td>
+                                    <td className="px-4 py-3">
+                                        <div className="font-bold text-heading">{inv.tenant?.name || 'غير معروف'}</div>
+                                        <div className="text-[10px] text-muted-foreground">{inv.unit?.name || 'غير محدد'}</div>
+                                    </td>
+                                    <td className="px-4 py-3 text-xs">{inv.type}</td>
+                                    <td className="px-4 py-3 text-xs">{formatDate(inv.dueDate)}</td>
+                                    <td className="px-4 py-3">
+                                        <div className="font-mono font-bold text-heading">{formatCurrency(inv.amount + (inv.taxAmount || 0))}</div>
+                                        {balance > 0 && <div className="text-[10px] text-danger font-mono font-medium mt-0.5">متبقي: {formatCurrency(balance)}</div>}
+                                    </td>
+                                    <td className="px-4 py-3"><StatusPill status={inv.status}>{getInvoiceStatusLabel(inv.status)}</StatusPill></td>
+                                    <td className="px-4 py-3">
+                                        <div className="flex items-center justify-end gap-2">
+                                            {inv.status !== 'PAID' && (
+                                                <button 
+                                                    onClick={() => navigate(`/financials?tab=receipts&action=add&invoiceId=${inv.id}`)}
+                                                    className="btn btn-sm bg-success/10 text-success hover:bg-success/20 flex items-center gap-1 text-[10px] px-2 py-1"
+                                                >
+                                                    <DollarSign size={12}/> تحصيل
+                                                </button>
+                                            )}
                                             <ActionsMenu items={[
                                                 EditAction(() => {setEditingInvoice(inv); setIsModalOpen(true);}),
                                                 PrintAction(() => setPrintingInvoice(inv)),
                                                 VoidAction(() => financeService.voidInvoice(inv.id)),
                                             ]} />
                                         </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        )})}
-                    </tbody>
-                </table>
-                    {invoicesWithDetails.length === 0 && (<div className="text-center py-16"><ReceiptText size={52} className="mx-auto text-muted" /><h3 className="mt-4 text-xl font-semibold text-heading">لا توجد فواتير</h3></div>)}
-            </div>
+                                    </td>
+                                </tr>
+                            )})}
+                            {invoicesWithDetails.length === 0 && (
+                                <tr>
+                                    <td colSpan={7} className="px-4 py-16 text-center">
+                                        <ReceiptText size={48} className="mx-auto text-muted-foreground/30 mb-3" />
+                                        <h3 className="text-lg font-semibold text-heading mb-1">لا توجد فواتير</h3>
+                                        <p className="text-muted-foreground text-sm">لم يتم العثور على أي فواتير مطابقة لخيارات البحث أو الفلترة المحددة.</p>
+                                    </td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
+                </div>
+            </Card>
             <InvoiceForm isOpen={isModalOpen} onClose={() => {setEditingInvoice(null); setIsModalOpen(false);}} invoice={editingInvoice} />
             
             {printingInvoice && (

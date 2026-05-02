@@ -53,7 +53,7 @@ const Login: React.FC = () => {
                             type="text"
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
-                            className="w-full pr-12 pl-4 py-3"
+                            className="input-field pr-12 pl-4 py-3"
                             placeholder="اسم المستخدم"
                             autoComplete="username"
                             required
@@ -71,7 +71,7 @@ const Login: React.FC = () => {
                             type="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="w-full pr-12 pl-4 py-3"
+                            className="input-field pr-12 pl-4 py-3 dir-ltr text-right"
                             placeholder="••••••••"
                             autoComplete="current-password"
                             required
@@ -88,7 +88,7 @@ const Login: React.FC = () => {
                 <button
                     type="submit"
                     disabled={isLoading}
-                    className="w-full btn btn-primary py-3.5 text-base flex items-center justify-center gap-3"
+                    className="w-full btn bg-primary text-primary-foreground hover:bg-primary/90 py-3.5 text-base flex items-center justify-center gap-3"
                 >
                     {isLoading ? (
                         <>

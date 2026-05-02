@@ -42,17 +42,17 @@ const AccountForm: React.FC<AccountFormProps> = ({ isOpen, onClose, account }) =
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label className="text-xs font-bold block mb-1">رقم الحساب (كود)</label>
-                        <input name="no" value={data.no || ''} onChange={handleChange} placeholder="مثال: 1101" required className="w-full p-2 border rounded-md"/>
+                        <input name="no" value={data.no || ''} onChange={handleChange} placeholder="مثال: 1101" required className="input-field"/>
                     </div>
                     <div>
                         <label className="text-xs font-bold block mb-1">اسم الحساب</label>
-                        <input name="name" value={data.name || ''} onChange={handleChange} placeholder="مثال: البنك الوطني" required className="w-full p-2 border rounded-md"/>
+                        <input name="name" value={data.name || ''} onChange={handleChange} placeholder="مثال: البنك الوطني" required className="input-field"/>
                     </div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label className="text-xs font-bold block mb-1">نوع الحساب</label>
-                        <select name="type" value={data.type} onChange={handleChange} className="w-full p-2 border rounded-md">
+                        <select name="type" value={data.type} onChange={handleChange} className="input-field">
                             <option value="ASSET">أصول</option>
                             <option value="LIABILITY">التزامات</option>
                             <option value="EQUITY">حقوق ملكية</option>
@@ -62,7 +62,7 @@ const AccountForm: React.FC<AccountFormProps> = ({ isOpen, onClose, account }) =
                     </div>
                     <div>
                         <label className="text-xs font-bold block mb-1">الحساب الرئيسي (الأب)</label>
-                        <select name="parentId" value={data.parentId || 'null'} onChange={handleChange} className="w-full p-2 border rounded-md">
+                        <select name="parentId" value={data.parentId || 'null'} onChange={handleChange} className="input-field">
                             <option value="null">-- حساب رئيسي (مستوى 1) --</option>
                             {parentAccounts?.map(p => <option key={p.id} value={p.id}>{p.name} ({p.no})</option>)}
                         </select>
@@ -74,7 +74,7 @@ const AccountForm: React.FC<AccountFormProps> = ({ isOpen, onClose, account }) =
                 </div>
                 <div className="flex justify-end gap-2 pt-4 border-t">
                     <button type="button" onClick={onClose} className="btn btn-ghost">إلغاء</button>
-                    <button type="submit" className="btn btn-primary">حفظ الحساب</button>
+                    <button type="submit" className="btn bg-primary text-primary-foreground hover:bg-primary/90">حفظ الحساب</button>
                 </div>
             </form>
         </Modal>

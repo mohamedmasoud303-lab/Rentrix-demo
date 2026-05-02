@@ -42,49 +42,49 @@ const ChangePassword: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background p-4">
-      <div className="max-w-md w-full bg-card shadow-md rounded-lg p-8 border border-border">
+    <div className="min-h-screen flex items-center justify-center bg-muted/10 p-4">
+      <div className="max-w-md w-full bg-card shadow-lg rounded-2xl p-8 border border-border/50 animate-in zoom-in-95 duration-500">
         <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold text-text">تغيير كلمة المرور</h1>
-          <p className="text-text-muted mt-2">
+          <h1 className="text-2xl font-black text-heading">تغيير كلمة المرور</h1>
+          <p className="text-muted-foreground mt-2 text-sm">
             لأسباب أمنية، يجب عليك تغيير كلمة المرور الافتراضية قبل المتابعة.
           </p>
         </div>
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-text-muted mb-2" htmlFor="newPassword">
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-sm font-bold text-heading mb-2" htmlFor="newPassword">
               كلمة المرور الجديدة
             </label>
             <input
               id="newPassword"
               type="password"
+              className="input-field dir-ltr text-right"
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
               required
             />
           </div>
-          <div className="mb-6">
-            <label className="block text-sm font-medium text-text-muted mb-2" htmlFor="confirmPassword">
+          <div>
+            <label className="block text-sm font-bold text-heading mb-2" htmlFor="confirmPassword">
               تأكيد كلمة المرور الجديدة
             </label>
             <input
               id="confirmPassword"
               type="password"
+              className="input-field dir-ltr text-right"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
             />
           </div>
-          {error && <p className="text-red-500 text-sm mb-4 text-center">{error}</p>}
-          <div className="flex items-center justify-between">
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="w-full btn btn-primary"
-            >
-              {isLoading ? 'جاري الحفظ...' : 'حفظ وتأكيد'}
-            </button>
-          </div>
+          {error && <p className="text-danger text-sm text-center font-bold">{error}</p>}
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="w-full btn bg-primary text-primary-foreground hover:bg-primary/90 mt-6"
+          >
+            {isLoading ? 'جاري الحفظ...' : 'حفظ وتأكيد'}
+          </button>
         </form>
       </div>
     </div>

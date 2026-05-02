@@ -47,34 +47,34 @@ const PropertyForm: React.FC<PropertyFormProps> = ({ isOpen, onClose, property }
         <Modal isOpen={isOpen} onClose={onClose} title={property ? 'تعديل عقار' : 'إضافة عقار'}>
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                    <label className="text-sm font-medium block mb-1">اسم العقار</label>
+                    <label className="text-sm font-bold block mb-1 text-heading">اسم العقار</label>
                     <input 
                         name="name" 
                         value={data.name || ''} 
                         onChange={e => setData({...data, name: e.target.value})} 
                         placeholder="اسم العقار" 
                         required
-                        className="w-full p-2 border rounded-md"
+                        className="input-field"
                     />
                 </div>
                 <div>
-                    <label className="text-sm font-medium block mb-1">الموقع</label>
+                    <label className="text-sm font-bold block mb-1 text-heading">الموقع</label>
                     <input 
                         name="location" 
                         value={data.location || ''} 
                         onChange={e => setData({...data, location: e.target.value})} 
                         placeholder="الموقع" 
-                        className="w-full p-2 border rounded-md"
+                        className="input-field"
                     />
                 </div>
                 <div>
-                    <label className="text-sm font-medium block mb-1">المالك</label>
+                    <label className="text-sm font-bold block mb-1 text-heading">المالك</label>
                     <select 
                         name="ownerId" 
                         value={data.ownerId || ''} 
                         onChange={e => setData({...data, ownerId: e.target.value})} 
                         required
-                        className="w-full p-2 border rounded-md"
+                        className="input-field"
                     >
                         <option value="">-- اختر المالك --</option>
                         {db.owners.map(o => (
@@ -84,7 +84,7 @@ const PropertyForm: React.FC<PropertyFormProps> = ({ isOpen, onClose, property }
                 </div>
                 <div className="flex justify-end gap-2 pt-4 border-t">
                     <button type="button" onClick={onClose} className="btn btn-ghost">إلغاء</button>
-                    <button type="submit" className="btn btn-primary">حفظ</button>
+                    <button type="submit" className="btn bg-primary text-primary-foreground hover:bg-primary/90">حفظ</button>
                 </div>
             </form>
         </Modal>

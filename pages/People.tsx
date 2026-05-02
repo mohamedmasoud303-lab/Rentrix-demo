@@ -107,42 +107,58 @@ const TenantsView: React.FC = () => {
                 onFilterChange={setStatusFilter}
             />
 
-            <div className="overflow-x-auto mt-4">
-                <table className="w-full responsive-table">
-                    <thead>
+            <div className="overflow-x-auto rounded-xl border border-border/50">
+                <table className="w-full text-sm">
+                    <thead className="bg-muted/30 text-muted-foreground font-semibold">
                         <tr>
-                            <th>الاسم</th>
-                            <th>الهاتف</th>
-                            <th>رقم الهوية</th>
-                            <th>الحالة</th>
-                            <th>إجراءات</th>
+                            <th className="px-4 py-3 text-start">الاسم</th>
+                            <th className="px-4 py-3 text-start">الهاتف</th>
+                            <th className="px-4 py-3 text-start">رقم الهوية</th>
+                            <th className="px-4 py-3 text-start">الحالة</th>
+                            <th className="px-4 py-3 text-end">إجراءات</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody className="divide-y divide-border/50">
                         {filteredTenants.map(t => (
-                            <tr key={t.id} className="group">
-                                <td data-label="الاسم" className="font-medium text-heading">{t.name}</td>
-                                <td data-label="الهاتف">{t.phone}</td>
-                                <td data-label="رقم الهوية">{t.idNo}</td>
-                                <td data-label="الحالة">
+                            <tr key={t.id} className="hover:bg-muted/10 transition-colors group">
+                                <td className="px-4 py-3 font-bold text-heading flex items-center gap-2">
+                                    <div className="w-8 h-8 rounded bg-primary/5 flex items-center justify-center text-primary">
+                                        <Users size={16} />
+                                    </div>
+                                    {t.name}
+                                </td>
+                                <td className="px-4 py-3 text-muted-foreground">{t.phone}</td>
+                                <td className="px-4 py-3 font-mono">{t.idNo}</td>
+                                <td className="px-4 py-3">
                                     <StatusPill status={t.status}>
                                         {t.status === 'ACTIVE' ? 'نشط' : (t.status === 'BLACKLIST' ? 'قائمة سوداء' : 'غير نشط')}
                                     </StatusPill>
                                 </td>
-                                <td data-label="إجراءات" className="action-cell">
-                                    <div className="flex justify-end opacity-0 group-hover:opacity-100 transition-opacity">
-                                    <ActionsMenu items={[
-                                        EditAction(() => handleOpenModal(t)),
-                                        { label: 'مراسلة واتساب', icon: <MessageCircle size={16} />, onClick: () => handleOpenWhatsAppModal(t) },
-                                        DeleteAction(() => handleDelete(t.id)),
-                                    ]} />
+                                <td className="px-4 py-3">
+                                    <div className="flex justify-end gap-2">
+                                        <button onClick={() => handleOpenWhatsAppModal(t)} className="w-8 h-8 rounded shrink-0 bg-green-500/10 text-green-600 flex items-center justify-center hover:bg-green-500/20 transition-colors">
+                                            <MessageCircle size={16} />
+                                        </button>
+                                        <ActionsMenu items={[
+                                            EditAction(() => handleOpenModal(t)),
+                                            DeleteAction(() => handleDelete(t.id)),
+                                        ]} />
                                     </div>
                                 </td>
                             </tr>
                         ))}
+                        {filteredTenants.length === 0 && (
+                            <tr>
+                                <td colSpan={5} className="px-4 py-12 text-center text-muted-foreground">
+                                    <div className="flex flex-col items-center justify-center">
+                                        <Users size={32} className="text-muted-foreground/50 mb-2" />
+                                        <p>لا يوجد مستأجرون مطابقون للبحث.</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        )}
                     </tbody>
                 </table>
-                {filteredTenants.length === 0 && <div className="text-center py-12 text-muted-foreground">لا يوجد مستأجرون مطابقون للبحث.</div>}
             </div>
 
             <TenantForm isOpen={isModalOpen} onClose={handleCloseModals} tenant={editingTenant} />
@@ -196,31 +212,41 @@ const OwnersView: React.FC = () => {
                 onPrint={() => window.print()}
             />
 
-            <div className="overflow-x-auto mt-4">
-                <table className="w-full responsive-table">
-                    <thead>
+            <div className="overflow-x-auto rounded-xl border border-border/50">
+                <table className="w-full text-sm">
+                    <thead className="bg-muted/30 text-muted-foreground font-semibold">
                         <tr>
-                            <th>الاسم</th>
-                            <th>الهاتف</th>
-                            <th>عدد العقارات</th>
-                            <th>إجراءات</th>
+                            <th className="px-4 py-3 text-start">الاسم</th>
+                            <th className="px-4 py-3 text-start">الهاتف</th>
+                            <th className="px-4 py-3 text-start">عدد العقارات</th>
+                            <th className="px-4 py-3 text-end">إجراءات</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody className="divide-y divide-border/50">
                         {filteredOwners.map(owner => (
-                            <tr key={owner.id} className="group">
-                                <td data-label="الاسم" className="font-medium text-heading cursor-pointer" onClick={() => handleOpenModal(owner)}>{owner.name}</td>
-                                <td data-label="الهاتف">{owner.phone}</td>
-                                <td data-label="عدد العقارات">{properties.filter(p => p.ownerId === owner.id).length}</td>
-                                <td data-label="إجراءات" className="action-cell">
-                                    <div className="flex justify-end opacity-0 group-hover:opacity-100 transition-opacity items-center gap-2">
+                            <tr key={owner.id} className="hover:bg-muted/10 transition-colors group">
+                                <td className="px-4 py-3 font-bold text-heading flex items-center gap-2 cursor-pointer hover:text-primary transition-colors" onClick={() => handleOpenModal(owner)}>
+                                    <div className="w-8 h-8 rounded bg-primary/5 flex items-center justify-center text-primary">
+                                        <Users size={16} />
+                                    </div>
+                                    {owner.name}
+                                </td>
+                                <td className="px-4 py-3 text-muted-foreground">{owner.phone}</td>
+                                <td className="px-4 py-3">
+                                    <div className="inline-flex items-center justify-center px-2 py-1 rounded bg-muted/50 text-xs font-bold">
+                                        {properties.filter(p => p.ownerId === owner.id).length} عقارات
+                                    </div>
+                                </td>
+                                <td className="px-4 py-3">
+                                    <div className="flex justify-end items-center gap-2">
                                         <button 
                                             onClick={async () => {
                                                 const link = await generateOwnerPortalLink(owner.id);
                                                 navigator.clipboard.writeText(link);
                                                 toast.success("تم نسخ رابط المالك!");
                                             }}
-                                            className="btn btn-sm btn-secondary flex items-center gap-1 text-[10px]"
+                                            className="btn btn-sm bg-primary/10 text-primary hover:bg-primary/20 flex items-center gap-1 text-[10px]"
+                                            title="نسخ الرابط المخصص للمالك لمتابعة محفظته"
                                         >
                                             <LinkIcon size={12} /> رابط المالك
                                         </button>
@@ -233,9 +259,18 @@ const OwnersView: React.FC = () => {
                                 </td>
                             </tr>
                         ))}
+                        {filteredOwners.length === 0 && (
+                            <tr>
+                                <td colSpan={4} className="px-4 py-12 text-center text-muted-foreground">
+                                    <div className="flex flex-col items-center justify-center">
+                                        <Users size={32} className="text-muted-foreground/50 mb-2" />
+                                        <p>لا يوجد ملاك مطابقون للبحث.</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        )}
                     </tbody>
                 </table>
-                {filteredOwners.length === 0 && <div className="text-center py-12 text-muted-foreground">لا يوجد ملاك مطابقون للبحث.</div>}
             </div>
             <OwnerForm isOpen={isModalOpen} onClose={handleCloseModals} owner={editingOwner} />
         </div>

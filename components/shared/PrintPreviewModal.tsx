@@ -66,12 +66,12 @@ const PrintPreviewModal: React.FC<PrintPreviewModalProps> = ({ isOpen, onClose, 
                     <h3 className="text-lg font-bold text-heading">{title}</h3>
                     <div className="flex items-center gap-2">
                         {onExportPdf && (
-                            <button onClick={onExportPdf} className="btn btn-secondary flex items-center gap-2">
+                            <button onClick={onExportPdf} className="btn bg-secondary text-secondary-foreground hover:bg-secondary/90 flex items-center gap-2">
                                 <FileText size={16} />
                                 تصدير PDF
                             </button>
                         )}
-                        <button onClick={handlePrint} className="btn btn-primary flex items-center gap-2">
+                        <button onClick={handlePrint} className="btn bg-primary text-primary-foreground hover:bg-primary/90 flex items-center gap-2">
                             <Printer size={16} />
                             طباعة
                         </button>

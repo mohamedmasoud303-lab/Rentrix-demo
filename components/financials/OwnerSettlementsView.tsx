@@ -42,37 +42,46 @@ const OwnerSettlementsView: React.FC = () => {
                 onFilterChange={setStatusFilter}
             />
 
-            <div className="overflow-x-auto mt-4">
-                <table className="responsive-table">
-                    <thead>
+            <div className="overflow-x-auto rounded-xl border border-border/50">
+                <table className="w-full text-sm">
+                    <thead className="bg-muted/30 text-muted-foreground font-semibold">
                         <tr>
-                            <th>الرقم</th>
-                            <th>التاريخ</th>
-                            <th>المالك</th>
-                            <th>المبلغ المحول</th>
-                            <th>الحالة</th>
-                            <th>إجراءات</th>
+                            <th className="px-4 py-3 text-start">الرقم</th>
+                            <th className="px-4 py-3 text-start">التاريخ</th>
+                            <th className="px-4 py-3 text-start">المالك</th>
+                            <th className="px-4 py-3 text-start">المبلغ المحول</th>
+                            <th className="px-4 py-3 text-start">الحالة</th>
+                            <th className="px-4 py-3 text-end">إجراءات</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody className="divide-y divide-border/50">
                         {filtered.map(s => {
                             const owner = db.owners.find(o => o.id === s.ownerId);
                             return (
-                                <tr key={s.id} className={`group ${s.status === 'VOID' ? 'opacity-50 line-through' : ''}`}>
-                                    <td data-label="رقم التسوية" className="font-mono font-bold text-heading">{s.no}</td>
-                                    <td data-label="التاريخ">{formatDate(s.date)}</td>
-                                    <td data-label="المالك">{owner?.name || '—'}</td>
-                                    <td data-label="المبلغ" className="font-bold text-primary">{formatCurrency(s.amount, db.settings.currency)}</td>
-                                    <td data-label="الحالة"><StatusPill status={s.status}>{s.status === 'POSTED' ? 'مرحّل' : 'ملغي'}</StatusPill></td>
-                                    <td data-label="إجراءات" className="action-cell">
+                                <tr key={s.id} className={`hover:bg-muted/10 transition-colors group ${s.status === 'VOID' ? 'opacity-50 bg-neutral/10' : ''}`}>
+                                    <td className={`px-4 py-3 font-mono font-bold ${s.status === 'VOID' ? 'line-through text-muted-foreground' : 'text-heading'}`}>{s.no}</td>
+                                    <td className="px-4 py-3 text-xs">{formatDate(s.date)}</td>
+                                    <td className="px-4 py-3 font-medium text-heading">{owner?.name || '—'}</td>
+                                    <td className="px-4 py-3 font-mono font-bold text-primary">{formatCurrency(s.amount, db.settings.currency)}</td>
+                                    <td className="px-4 py-3"><StatusPill status={s.status}>{s.status === 'POSTED' ? 'مرحّل' : 'ملغي'}</StatusPill></td>
+                                    <td className="px-4 py-3">
+                                      <div className="flex justify-end">
                                         <ActionsMenu items={[ EditAction(() => { setEditingSettlement(s); setIsModalOpen(true); }), VoidAction(() => financeService.voidOwnerSettlement(s.id)) ]} />
+                                      </div>
                                     </td>
                                 </tr>
                             );
                         })}
+                        {filtered.length === 0 && (
+                            <tr>
+                                <td colSpan={6} className="px-4 py-16 text-center">
+                                    <h3 className="text-lg font-semibold text-heading mb-1">لا توجد تسويات مالية</h3>
+                                    <p className="text-muted-foreground text-sm">لم يتم العثور على أي تحويلات للملاك.</p>
+                                </td>
+                            </tr>
+                        )}
                     </tbody>
                 </table>
-                {filtered.length === 0 && <div className="text-center py-12 text-muted-foreground">لا توجد تسويات مطابقة للبحث.</div>}
             </div>
             {isModalOpen && <OwnerSettlementForm isOpen={isModalOpen} onClose={() => { setIsModalOpen(false); setEditingSettlement(null); }} settlement={editingSettlement} />}
         </div>

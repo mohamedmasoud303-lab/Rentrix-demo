@@ -102,7 +102,7 @@ const ContractForm: React.FC<ContractFormProps> = ({ isOpen, onClose, contract, 
                                 value={data.unitId} 
                                 onChange={handleChange} 
                                 required
-                                className="w-full p-2 border rounded-md"
+                                className="input-field"
                             >
                                 <option value="">اختر الوحدة...</option>
                                 {contract && !availableUnits.some(u => u.id === contract.unitId) && (
@@ -125,7 +125,7 @@ const ContractForm: React.FC<ContractFormProps> = ({ isOpen, onClose, contract, 
                                 value={data.tenantId} 
                                 onChange={handleChange} 
                                 required
-                                className="w-full p-2 border rounded-md"
+                                className="input-field"
                             >
                                 <option value="">اختر المستأجر...</option>
                                 {db.tenants.map(t => (
@@ -143,7 +143,7 @@ const ContractForm: React.FC<ContractFormProps> = ({ isOpen, onClose, contract, 
                                 onChange={handleChange} 
                                 placeholder="0.00" 
                                 required 
-                                className="w-full p-2 border rounded-md"
+                                className="input-field"
                             />
                         </div>
 
@@ -153,7 +153,7 @@ const ContractForm: React.FC<ContractFormProps> = ({ isOpen, onClose, contract, 
                                 name="paymentCycle" 
                                 value={data.paymentCycle || 'Monthly'} 
                                 onChange={handleChange}
-                                className="w-full p-2 border rounded-md"
+                                className="input-field"
                             >
                                 <option value="Monthly">شهري</option>
                                 <option value="Quarterly">ربع سنوي</option>
@@ -171,7 +171,7 @@ const ContractForm: React.FC<ContractFormProps> = ({ isOpen, onClose, contract, 
                                 value={data.dueDay} 
                                 onChange={handleChange} 
                                 required 
-                                className="w-full p-2 border rounded-md"
+                                className="input-field"
                             />
                         </div>
 
@@ -183,7 +183,7 @@ const ContractForm: React.FC<ContractFormProps> = ({ isOpen, onClose, contract, 
                                 value={data.start} 
                                 onChange={handleStartDateChange} 
                                 required 
-                                className="w-full p-2 border rounded-md"
+                                className="input-field"
                             />
                         </div>
 
@@ -195,7 +195,7 @@ const ContractForm: React.FC<ContractFormProps> = ({ isOpen, onClose, contract, 
                                 value={data.end} 
                                 onChange={handleChange} 
                                 required 
-                                className="w-full p-2 border rounded-md"
+                                className="input-field"
                             />
                         </div>
 
@@ -207,7 +207,7 @@ const ContractForm: React.FC<ContractFormProps> = ({ isOpen, onClose, contract, 
                                 value={data.deposit} 
                                 onChange={handleChange} 
                                 placeholder="0.00" 
-                                className="w-full p-2 border rounded-md"
+                                className="input-field"
                             />
                         </div>
 
@@ -217,7 +217,7 @@ const ContractForm: React.FC<ContractFormProps> = ({ isOpen, onClose, contract, 
                                 name="status" 
                                 value={data.status} 
                                 onChange={handleChange}
-                                className="w-full p-2 border rounded-md"
+                                className="input-field"
                             >
                                 <option value="ACTIVE">نشط</option>
                                 <option value="ENDED">منتهي</option>
@@ -235,7 +235,7 @@ const ContractForm: React.FC<ContractFormProps> = ({ isOpen, onClose, contract, 
 
                 <div className="flex justify-end gap-3 pt-4 border-t border-border">
                     <button type="button" onClick={onClose} className="btn btn-ghost">إلغاء</button>
-                    <button type="submit" className="btn btn-primary">حفظ</button>
+                    <button type="submit" className="btn bg-primary text-primary-foreground hover:bg-primary/90">حفظ</button>
                 </div>
             </form>
         </Modal>

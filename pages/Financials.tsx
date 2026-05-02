@@ -12,9 +12,9 @@ const Financials: React.FC = () => {
     const [activeTab, setActiveTab] = useState<'receipts' | 'expenses' | 'deposits' | 'settlements'>('receipts');
     
     return (
-        <div className="space-y-6">
+        <div className="space-y-6 animate-in fade-in duration-700">
             <PageHeader title="الخزينة والمالية" description="إدارة السندات، المصروفات، والتحويلات المالية للملاك والمستأجرين." />
-            <Card>
+            <Card className="border-border/50">
                 <Tabs 
                     tabs={[
                         { id: 'receipts', label: 'سندات القبض' },
@@ -25,7 +25,7 @@ const Financials: React.FC = () => {
                     activeTab={activeTab}
                     onTabClick={(id) => setActiveTab(id as any)}
                 />
-                <div className="pt-6">
+                <div className="pt-6 animate-in slide-in-from-left-2 duration-300">
                     {activeTab === 'receipts' && <ReceiptsView />}
                     {activeTab === 'expenses' && <ExpensesView />}
                     {activeTab === 'deposits' && <DepositsView />}

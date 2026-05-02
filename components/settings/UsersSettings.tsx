@@ -21,13 +21,13 @@ const UsersSettings: React.FC = () => {
 
     return (
         <div className="space-y-6 animate-in fade-in duration-500">
-            <Card>
-                <div className="flex justify-between items-center mb-6">
+            <Card className="border-border/50 p-6">
+                <div className="flex flex-wrap justify-between items-center mb-6 gap-4">
                     <h2 className="text-xl font-black flex items-center gap-2">
                         <ShieldCheck className="text-primary"/> 
                         إدارة المستخدمين
                     </h2>
-                    <button onClick={() => { setEditingUser(null); setIsModalOpen(true); }} className="btn btn-primary flex items-center gap-2">
+                    <button onClick={() => { setEditingUser(null); setIsModalOpen(true); }} className="btn bg-primary text-primary-foreground hover:bg-primary/90 flex items-center gap-2">
                         <UserPlus size={18} /> 
                         إضافة مستخدم
                     </button>

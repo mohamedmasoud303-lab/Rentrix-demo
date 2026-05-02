@@ -136,7 +136,7 @@ const Dashboard: React.FC = () => {
                     </button>
                     <button 
                         onClick={() => navigate('/contracts/new')}
-                        className="btn btn-primary flex items-center gap-2 text-xs"
+                        className="btn bg-primary text-primary-foreground hover:bg-primary/90 flex items-center gap-2 text-xs"
                     >
                         <Plus size={14} /> عقد جديد
                     </button>
@@ -208,7 +208,7 @@ const Dashboard: React.FC = () => {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 {/* Main Charts Area */}
                 <div className="lg:col-span-2 space-y-6">
-                    <Card className="p-6">
+                    <Card className="p-6 border-border/50">
                         <div className="flex items-center justify-between mb-6">
                             <h3 className="font-black flex items-center gap-2">
                                 <BarChart3 size={18} className="text-primary" />
@@ -257,7 +257,7 @@ const Dashboard: React.FC = () => {
                     </Card>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <Card className="p-6">
+                        <Card className="p-6 border-border/50">
                             <h3 className="font-black flex items-center gap-2 mb-6">
                                 <PieChartIcon size={18} className="text-primary" />
                                 حالة الوحدات
@@ -355,7 +355,7 @@ const Dashboard: React.FC = () => {
                         </div>
                     </Card>
 
-                    <Card className="p-6">
+                    <Card className="p-6 border-border/50">
                         <h3 className="font-black flex items-center gap-2 mb-6">
                             <LayoutDashboard size={18} className="text-primary" />
                             إجراءات سريعة

@@ -62,33 +62,33 @@ const CloudBackupManager: React.FC = () => {
     };
 
     return (
-         <div className="space-y-4 p-4 bg-background rounded-lg border border-border">
-            <h3 className="font-bold flex items-center gap-2"><Cloud size={18}/> المزامنة السحابية (Google Drive)</h3>
+         <div className="space-y-4 p-6 bg-muted/20 rounded-2xl border border-border/50 transition-colors hover:border-border">
+            <h3 className="font-bold flex items-center gap-2 text-heading"><Cloud size={18} className="text-primary"/> المزامنة السحابية (Google Drive)</h3>
             {googleUser ? (
                 <div>
-                    <div className="flex items-center gap-3 mb-4">
-                        <img src={googleUser.picture} alt="profile" className="w-12 h-12 rounded-full" />
+                    <div className="flex items-center gap-3 mb-6 bg-background rounded-xl p-3 border border-border/50">
+                        <img src={googleUser.picture} alt="profile" className="w-10 h-10 rounded-full" />
                         <div>
-                            <p className="font-bold">{googleUser.name}</p>
-                            <p className="text-xs text-text-muted">{googleUser.email}</p>
+                            <p className="font-bold text-heading text-sm">{googleUser.name}</p>
+                            <p className="text-xs text-muted-foreground">{googleUser.email}</p>
                         </div>
                     </div>
-                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                        <button onClick={handleSync} disabled={isSyncing} className="btn btn-secondary flex items-center justify-center gap-2">
+                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+                        <button onClick={handleSync} disabled={isSyncing} className="btn bg-primary/10 text-primary hover:bg-primary/20 flex items-center justify-center gap-2">
                             <RefreshCw size={16} className={isSyncing ? 'animate-spin' : ''} /> {isSyncing ? 'جاري المزامنة...' : 'مزامنة الآن'}
                         </button>
-                        <button onClick={handleRestore} disabled={isRestoring} className="btn btn-warning flex items-center justify-center gap-2">
+                        <button onClick={handleRestore} disabled={isRestoring} className="btn bg-warning/10 text-warning hover:bg-warning/20 flex items-center justify-center gap-2">
                             <Download size={16} /> {isRestoring ? 'جاري الاستعادة...' : 'استعادة من Drive'}
                         </button>
                     </div>
-                    <button onClick={googleSignOut} className="btn btn-ghost text-xs w-full mt-2">تسجيل الخروج</button>
+                    <button onClick={googleSignOut} className="btn btn-ghost text-xs w-full text-muted-foreground hover:text-danger">تسجيل الخروج من الحساب</button>
                 </div>
             ) : (
-                <div>
-                    <p className="text-sm text-text-muted mb-3">
+                <div className="h-full flex flex-col justify-between">
+                    <p className="text-sm text-muted-foreground mb-6">
                         احفظ نسخة احتياطية من بياناتك بشكل آمن في حسابك على Google Drive واستعدها في أي وقت.
                     </p>
-                    <button onClick={googleSignIn} className="btn btn-secondary w-full flex items-center justify-center gap-2">
+                    <button onClick={googleSignIn} className="btn bg-background border border-border/50 hover:bg-muted w-full flex items-center justify-center gap-2 shadow-sm">
                         <GoogleIcon /> تسجيل الدخول مع جوجل
                     </button>
                 </div>
@@ -147,33 +147,36 @@ const BackupManager: React.FC = () => {
     };
 
     return (
-        <Card>
-            <h2 className="text-xl font-bold mb-4">إدارة بيانات النظام</h2>
+        <Card className="border-border/50 p-6 animate-in fade-in duration-500">
+            <h2 className="text-xl font-black mb-6 flex items-center gap-2">
+                <Database className="text-primary"/> 
+                إدارة بيانات النظام
+            </h2>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <CloudBackupManager />
-                <div className="space-y-4 p-4 bg-background rounded-lg border border-border">
-                    <h3 className="font-bold flex items-center gap-2"><Download size={18} /> النسخ الاحتياطي المحلي</h3>
-                    <p className="text-sm text-text-muted">تنزيل نسخة من البيانات على جهازك.</p>
-                    <button onClick={handleBackup} className="btn btn-primary w-full">تنزيل نسخة احتياطية الآن</button>
+                <div className="space-y-4 p-6 bg-muted/20 rounded-2xl border border-border/50 transition-colors hover:border-border">
+                    <h3 className="font-bold flex items-center gap-2 text-heading"><Download size={18} className="text-primary"/> النسخ الاحتياطي المحلي</h3>
+                    <p className="text-sm text-muted-foreground">تنزيل نسخة من البيانات على مساحة التخزين المحلية بجهازك بصيغة JSON.</p>
+                    <button onClick={handleBackup} className="btn bg-primary text-primary-foreground hover:bg-primary/90 w-full mt-2">تنزيل نسخة احتياطية الآن</button>
                 </div>
-                <div className="space-y-4 p-4 bg-background rounded-lg border border-border md:col-span-2">
-                     <h3 className="font-bold flex items-center gap-2"><Upload size={18} /> استعادة من ملف محلي</h3>
-                     <div className="flex items-center gap-4">
-                        <input type="file" accept=".json" onChange={handleFileSelect} className="flex-grow w-full text-sm text-text-muted file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20 cursor-pointer"/>
-                        <button onClick={handleRestore} disabled={!restoreFile} className="btn btn-warning flex-shrink-0">
+                <div className="space-y-4 p-6 bg-muted/20 rounded-2xl border border-border/50 md:col-span-2 transition-colors hover:border-border">
+                     <h3 className="font-bold flex items-center gap-2 text-heading"><Upload size={18} className="text-primary"/> استعادة من ملف محلي</h3>
+                     <div className="flex flex-col sm:flex-row items-center gap-4 mt-2">
+                        <input type="file" accept=".json" onChange={handleFileSelect} className="flex-grow w-full text-sm text-muted-foreground file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-primary/10 file:text-primary hover:file:bg-primary/20 cursor-pointer"/>
+                        <button onClick={handleRestore} disabled={!restoreFile} className="btn bg-warning text-warning-foreground hover:bg-warning/90 w-full sm:w-auto flex-shrink-0">
                             بدء الاستعادة
                         </button>
                      </div>
-                     {restoreFile && <p className="text-sm text-center text-text-muted">الملف المختار: {restoreFile.name}</p>}
+                     {restoreFile && <p className="text-xs text-center text-muted-foreground font-medium mt-2">الملف المختار: {restoreFile.name}</p>}
                 </div>
             </div>
-            <div className="mt-8 p-4 border-2 border-dashed border-red-500 rounded-lg">
-                <h3 className="text-lg font-black text-red-600 flex items-center gap-2"><AlertTriangle /> منطقة الخطر</h3>
-                <p className="text-sm text-text-muted mt-2 mb-4">
-                    الإجراءات في هذا القسم لا يمكن التراجع عنها وتؤدي إلى فقدان دائم للبيانات. استخدمها بحذر شديد.
+            <div className="mt-8 p-6 bg-danger/5 border-2 border-dashed border-danger/30 rounded-2xl">
+                <h3 className="text-lg font-black text-danger flex items-center gap-2"><AlertTriangle /> منطقة الخطر</h3>
+                <p className="text-sm text-danger/80 mt-2 mb-6">
+                    الإجراءات في هذا القسم لا يمكن التراجع عنها وتؤدي إلى فقدان دائم للبيانات. استخدمها بحذر شديد وفي الحالات القصوى فقط.
                 </p>
-                <button onClick={handleWipe} className="btn btn-danger w-full md:w-auto flex items-center justify-center gap-2">
+                <button onClick={handleWipe} className="btn bg-danger text-danger-foreground hover:bg-danger/90 w-full md:w-auto flex items-center justify-center gap-2">
                     <Trash2 size={16} /> إعادة تعيين النظام بالكامل (حذف كل البيانات)
                 </button>
             </div>

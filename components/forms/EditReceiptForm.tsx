@@ -51,7 +51,7 @@ const EditReceiptForm: React.FC<EditReceiptFormProps> = ({ isOpen, onClose, rece
                             value={dateTime} 
                             onChange={e => setDateTime(e.target.value)} 
                             required 
-                            className="w-full p-2 border rounded-md"
+                            className="input-field"
                         />
                     </div>
                     <div>
@@ -59,7 +59,7 @@ const EditReceiptForm: React.FC<EditReceiptFormProps> = ({ isOpen, onClose, rece
                         <input 
                             value={ref} 
                             onChange={e => setRef(e.target.value)} 
-                            className="w-full p-2 border rounded-md"
+                            className="input-field"
                         />
                     </div>
                 </div>
@@ -69,12 +69,12 @@ const EditReceiptForm: React.FC<EditReceiptFormProps> = ({ isOpen, onClose, rece
                         value={notes} 
                         onChange={e => setNotes(e.target.value)} 
                         rows={2} 
-                        className="w-full p-2 border rounded-md"
+                        className="input-field"
                     />
                 </div>
                 <div className="flex justify-end gap-2 pt-4 border-t border-border">
                     <button type="button" onClick={onClose} className="btn btn-ghost">إلغاء</button>
-                    <button type="submit" className="btn btn-primary">حفظ التعديلات</button>
+                    <button type="submit" className="btn bg-primary text-primary-foreground hover:bg-primary/90">حفظ التعديلات</button>
                 </div>
             </form>
         </Modal>

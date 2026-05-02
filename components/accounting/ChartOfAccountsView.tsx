@@ -43,7 +43,7 @@ const ChartOfAccountsView: React.FC = () => {
         <div className="space-y-8">
             <div className="flex justify-between items-center">
                 <h2 className="text-xl font-bold">دليل الحسابات الموحد</h2>
-                <button onClick={() => handleOpenModal()} className="btn btn-primary flex items-center gap-2"><PlusCircle size={16} /> إضافة حساب</button>
+                <button onClick={() => handleOpenModal()} className="btn bg-primary text-primary-foreground hover:bg-primary/90 flex items-center gap-2"><PlusCircle size={16} /> إضافة حساب</button>
             </div>
             
             <div className="grid grid-cols-1 gap-8">

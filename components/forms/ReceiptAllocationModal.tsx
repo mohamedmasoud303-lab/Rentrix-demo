@@ -92,7 +92,7 @@ const ReceiptAllocationModal: React.FC<ReceiptAllocationModalProps> = ({ isOpen,
                             value={contractId} 
                             onChange={e => setContractId(e.target.value)} 
                             required
-                            className="w-full p-2 border rounded-md"
+                            className="input-field"
                         >
                             <option value="">-- اختر العقد --</option>
                             {db.contracts.map(c => (
@@ -109,7 +109,7 @@ const ReceiptAllocationModal: React.FC<ReceiptAllocationModalProps> = ({ isOpen,
                             value={receiptData.amount || ''} 
                             onChange={e => setReceiptData({ ...receiptData, amount: Number(e.target.value) })} 
                             required 
-                            className="w-full p-2 border rounded-md"
+                            className="input-field"
                         />
                     </div>
                     <div>
@@ -117,7 +117,7 @@ const ReceiptAllocationModal: React.FC<ReceiptAllocationModalProps> = ({ isOpen,
                         <select 
                             value={receiptData.channel} 
                             onChange={e => setReceiptData({ ...receiptData, channel: e.target.value as any })}
-                            className="w-full p-2 border rounded-md"
+                            className="input-field"
                         >
                             <option value="CASH">نقدي</option>
                             <option value="BANK">تحويل</option>
@@ -130,7 +130,7 @@ const ReceiptAllocationModal: React.FC<ReceiptAllocationModalProps> = ({ isOpen,
                             value={receiptData.notes} 
                             onChange={e => setReceiptData({ ...receiptData, notes: e.target.value })} 
                             rows={1}
-                            className="w-full p-2 border rounded-md"
+                            className="input-field"
                         />
                     </div>
                 </div>
@@ -169,7 +169,7 @@ const ReceiptAllocationModal: React.FC<ReceiptAllocationModalProps> = ({ isOpen,
 
                 <div className="flex justify-end gap-2 pt-4 border-t border-border">
                     <button type="button" onClick={onClose} className="btn btn-ghost">إلغاء</button>
-                    <button type="submit" className="btn btn-primary" disabled={!isBalanced || receiptData.amount <= 0}>حفظ السند</button>
+                    <button type="submit" className="btn bg-primary text-primary-foreground hover:bg-primary/90" disabled={!isBalanced || receiptData.amount <= 0}>حفظ السند</button>
                 </div>
             </form>
         </Modal>

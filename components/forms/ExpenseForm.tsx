@@ -53,7 +53,7 @@ const ExpenseForm: React.FC<ExpenseFormProps> = ({ isOpen, onClose, expense }) =
                             onChange={e => setCategory(e.target.value)} 
                             required 
                             placeholder="مثال: صيانة، كهرباء، عمولة" 
-                            className="w-full p-2 border rounded-md"
+                            className="input-field"
                         />
                     </div>
                     <div>
@@ -63,7 +63,7 @@ const ExpenseForm: React.FC<ExpenseFormProps> = ({ isOpen, onClose, expense }) =
                             value={amount || ''} 
                             onChange={e => setAmount(Number(e.target.value))} 
                             required 
-                            className="w-full p-2 border rounded-md"
+                            className="input-field"
                         />
                     </div>
                     <div>
@@ -71,7 +71,7 @@ const ExpenseForm: React.FC<ExpenseFormProps> = ({ isOpen, onClose, expense }) =
                         <select 
                             value={chargedTo} 
                             onChange={e => setChargedTo(e.target.value as any)}
-                            className="w-full p-2 border rounded-md"
+                            className="input-field"
                         >
                             <option value="OWNER">حساب المالك</option>
                             <option value="OFFICE">حساب المكتب</option>
@@ -83,7 +83,7 @@ const ExpenseForm: React.FC<ExpenseFormProps> = ({ isOpen, onClose, expense }) =
                         <select 
                             value={contractId || ''} 
                             onChange={e => setContractId(e.target.value || null)}
-                            className="w-full p-2 border rounded-md"
+                            className="input-field"
                         >
                             <option value="">-- مصروف مكتب عام --</option>
                             {db.contracts.map(c => (
@@ -100,7 +100,7 @@ const ExpenseForm: React.FC<ExpenseFormProps> = ({ isOpen, onClose, expense }) =
                             value={dateTime} 
                             onChange={e => setDateTime(e.target.value)} 
                             required 
-                            className="w-full p-2 border rounded-md"
+                            className="input-field"
                         />
                     </div>
                     <div>
@@ -109,7 +109,7 @@ const ExpenseForm: React.FC<ExpenseFormProps> = ({ isOpen, onClose, expense }) =
                             value={payee} 
                             onChange={e => setPayee(e.target.value)} 
                             placeholder="اسم الفني أو الشركة" 
-                            className="w-full p-2 border rounded-md"
+                            className="input-field"
                         />
                     </div>
                 </div>
@@ -119,12 +119,12 @@ const ExpenseForm: React.FC<ExpenseFormProps> = ({ isOpen, onClose, expense }) =
                         value={notes} 
                         onChange={e => setNotes(e.target.value)} 
                         rows={2} 
-                        className="w-full p-2 border rounded-md"
+                        className="input-field"
                     />
                 </div>
                 <div className="flex justify-end gap-2 pt-4 border-t border-border">
                     <button type="button" onClick={onClose} className="btn btn-ghost">إلغاء</button>
-                    <button type="submit" className="btn btn-primary">حفظ وتسجيل المصروف</button>
+                    <button type="submit" className="btn bg-primary text-primary-foreground hover:bg-primary/90">حفظ وتسجيل المصروف</button>
                 </div>
             </form>
         </Modal>

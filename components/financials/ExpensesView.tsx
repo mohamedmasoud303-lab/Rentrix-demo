@@ -47,28 +47,28 @@ const ExpensesView: React.FC = () => {
                 onFilterChange={setStatusFilter}
             />
 
-            <div className="overflow-x-auto mt-4">
-                <table className="responsive-table">
-                    <thead>
+            <div className="overflow-x-auto rounded-xl border border-border/50">
+                <table className="w-full text-sm">
+                    <thead className="bg-muted/30 text-muted-foreground font-semibold">
                         <tr>
-                            <th>رقم السند</th>
-                            <th>التاريخ</th>
-                            <th>التصنيف</th>
-                            <th>المبلغ</th>
-                            <th>الحالة</th>
-                            <th>إجراءات</th>
+                            <th className="px-4 py-3 text-start">رقم السند</th>
+                            <th className="px-4 py-3 text-start">التاريخ</th>
+                            <th className="px-4 py-3 text-start">التصنيف</th>
+                            <th className="px-4 py-3 text-start">المبلغ</th>
+                            <th className="px-4 py-3 text-start">الحالة</th>
+                            <th className="px-4 py-3 text-end">إجراءات</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody className="divide-y divide-border/50">
                         {filteredExpenses.map(e => (
-                            <tr key={e.id} className={`group ${e.status === 'VOID' ? 'opacity-50 line-through' : ''}`}>
-                                <td data-label="رقم السند" className="font-mono font-bold text-heading">{e.no}</td>
-                                <td data-label="التاريخ">{formatDateTime(e.dateTime)}</td>
-                                <td data-label="التصنيف">{e.category}</td>
-                                <td data-label="المبلغ" className="font-bold text-danger">{formatCurrency(e.amount, db.settings.currency)}</td>
-                                <td data-label="الحالة"><StatusPill status={e.status}>{e.status === 'POSTED' ? 'مرحّل' : 'ملغي'}</StatusPill></td>
-                                <td data-label="إجراءات" className="action-cell">
-                                  <div className="flex justify-end opacity-0 group-hover:opacity-100 transition-opacity">
+                            <tr key={e.id} className={`hover:bg-muted/10 transition-colors group ${e.status === 'VOID' ? 'opacity-50 bg-neutral/10' : ''}`}>
+                                <td className={`px-4 py-3 font-mono font-bold ${e.status === 'VOID' ? 'line-through text-muted-foreground' : 'text-heading'}`}>{e.no}</td>
+                                <td className="px-4 py-3 text-muted-foreground">{formatDateTime(e.dateTime)}</td>
+                                <td className="px-4 py-3 font-medium">{e.category}</td>
+                                <td className="px-4 py-3 font-mono font-bold text-danger">{formatCurrency(e.amount, db.settings.currency)}</td>
+                                <td className="px-4 py-3"><StatusPill status={e.status}>{e.status === 'POSTED' ? 'مرحّل' : 'ملغي'}</StatusPill></td>
+                                <td className="px-4 py-3">
+                                  <div className="flex items-center justify-end gap-2">
                                     <ActionsMenu items={[
                                         EditAction(() => { setEditingExpense(e); setIsModalOpen(true); }),
                                         PrintAction(() => setPrintingExpense(e)),
@@ -78,9 +78,16 @@ const ExpensesView: React.FC = () => {
                                 </td>
                             </tr>
                         ))}
+                        {filteredExpenses.length === 0 && (
+                            <tr>
+                                <td colSpan={6} className="px-4 py-16 text-center">
+                                    <h3 className="text-lg font-semibold text-heading mb-1">لا توجد مصروفات</h3>
+                                    <p className="text-muted-foreground text-sm">لم يتم العثور على أي مصروفات مطابقة لخيارات البحث أو الفلترة المحددة.</p>
+                                </td>
+                            </tr>
+                        )}
                     </tbody>
                 </table>
-                {filteredExpenses.length === 0 && <div className="text-center py-12 text-muted-foreground">لا توجد مصروفات مطابقة للبحث.</div>}
             </div>
             {isModalOpen && <ExpenseForm isOpen={isModalOpen} onClose={() => { setIsModalOpen(false); setEditingExpense(null); }} expense={editingExpense} />}
             

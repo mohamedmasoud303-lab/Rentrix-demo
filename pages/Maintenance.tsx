@@ -85,59 +85,65 @@ const Maintenance: React.FC = () => {
     if (!db.settings) return null;
 
     return (
-        <div className="space-y-6">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="space-y-6 animate-in fade-in duration-700">
+            <PageHeader title="طلبات الصيانة" description="إدارة طلبات الصيانة ومتابعة حالتها وتكاليفها." />
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                 <SummaryStatCard label="طلبات مفتوحة" value={summaryData.open} icon={<Wrench size={24}/>} color={summaryData.open > 0 ? 'warning' : 'success'}/>
                 <SummaryStatCard label="طلبات متأخرة (> 7 أيام)" value={summaryData.aged} icon={<AlertTriangle size={24}/>} color={summaryData.aged > 0 ? 'danger' : 'success'}/>
                 <SummaryStatCard label="طلبات جديدة اليوم" value={summaryData.newToday} icon={<Clock size={24}/>} color="info"/>
                 <SummaryStatCard label="تكاليف غير مفوترة" value={formatCurrency(summaryData.unbilledCost)} icon={<DollarSign size={24}/>} color={summaryData.unbilledCost > 0 ? 'warning' : 'success'}/>
             </div>
-            <Card>
-                <div className="flex justify-between items-center mb-4">
-                    <h2 className="text-xl font-bold">طلبات الصيانة (مرتبة حسب الأولوية)</h2>
+            <Card className="p-6 border-border/50">
+                <div className="mb-6">
+                    <TableControls
+                        searchTerm={searchTerm}
+                        onSearchChange={setSearchTerm}
+                        onAdd={() => handleOpenModal()}
+                        addLabel="إضافة طلب صيانة"
+                        onPrint={() => window.print()}
+                        filterOptions={[
+                            { value: 'ALL', label: 'الكل' },
+                            { value: 'NEW', label: 'جديد' },
+                            { value: 'IN_PROGRESS', label: 'قيد التنفيذ' },
+                            { value: 'COMPLETED', label: 'مكتمل' },
+                            { value: 'CLOSED', label: 'مغلق' }
+                        ]}
+                        activeFilter={statusFilter}
+                        onFilterChange={setStatusFilter}
+                    />
                 </div>
                 
-                <TableControls
-                    searchTerm={searchTerm}
-                    onSearchChange={setSearchTerm}
-                    onAdd={() => handleOpenModal()}
-                    addLabel="إضافة طلب صيانة"
-                    onPrint={() => window.print()}
-                    filterOptions={[
-                        { value: 'ALL', label: 'الكل' },
-                        { value: 'NEW', label: 'جديد' },
-                        { value: 'IN_PROGRESS', label: 'قيد التنفيذ' },
-                        { value: 'COMPLETED', label: 'مكتمل' },
-                        { value: 'CLOSED', label: 'مغلق' }
-                    ]}
-                    activeFilter={statusFilter}
-                    onFilterChange={setStatusFilter}
-                />
-                
-                <div className="overflow-x-auto mt-4">
-                    <table>
-                        <thead>
+                <div className="overflow-x-auto rounded-xl border border-border/50">
+                    <table className="w-full text-sm">
+                        <thead className="bg-muted/30 text-muted-foreground font-semibold">
                             <tr>
-                                <th>#</th><th>الوحدة</th><th>تاريخ الطلب</th><th>التكلفة</th>
-                                <th>الحالة</th><th className="text-left">الإجراء السريع</th>
+                                <th className="px-4 py-3 text-start">رقم الطلب</th>
+                                <th className="px-4 py-3 text-start">الوحدة / العقار</th>
+                                <th className="px-4 py-3 text-start">تاريخ الطلب</th>
+                                <th className="px-4 py-3 text-start">التكلفة</th>
+                                <th className="px-4 py-3 text-start">الحالة</th>
+                                <th className="px-4 py-3 text-end">الإجراءات</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody className="divide-y divide-border/50">
                             {recordsWithDetails.map(rec => {
                                 const unit = db.units.find(u => u.id === rec.unitId);
                                 const property = unit ? db.properties.find(p => p.id === unit.propertyId) : null;
                                 return (
-                                    <tr key={rec.id} className={`group cursor-pointer ${rec.isAging ? 'bg-warning-foreground' : ''}`} onClick={() => handleOpenModal(rec)}>
-                                        <td className="font-mono">{rec.no}</td>
-                                        <td className="font-medium text-heading"><div>{unit?.name}</div><div className="text-xs text-muted-foreground">{property?.name}</div></td>
-                                        <td>{formatDate(rec.requestDate)}</td>
-                                        <td>{formatCurrency(rec.cost)}</td>
-                                        <td><StatusPill status={rec.status}>{getStatusLabel(rec.status)}</StatusPill></td>
-                                        <td className="text-left w-64">
+                                    <tr key={rec.id} className={`hover:bg-muted/10 transition-colors group cursor-pointer ${rec.isAging ? 'bg-warning/5 border-l-2 border-l-warning' : ''}`} onClick={() => handleOpenModal(rec)}>
+                                        <td className="px-4 py-3 font-mono font-bold text-xs">{rec.no}</td>
+                                        <td className="px-4 py-3">
+                                            <div className="font-bold text-heading">{unit?.name || 'غير محدد'}</div>
+                                            <div className="text-[10px] text-muted-foreground mt-0.5">{property?.name || 'عقار غير معروف'}</div>
+                                        </td>
+                                        <td className="px-4 py-3 text-xs">{formatDate(rec.requestDate)}</td>
+                                        <td className="px-4 py-3 font-mono font-medium">{formatCurrency(rec.cost)}</td>
+                                        <td className="px-4 py-3"><StatusPill status={rec.status}>{getStatusLabel(rec.status)}</StatusPill></td>
+                                        <td className="px-4 py-3 text-end">
                                             <div className="flex items-center justify-end gap-2">
-                                                {rec.status === 'NEW' && <button onClick={(e) => { e.stopPropagation(); dataService.update('maintenanceRecords', rec.id, { status: 'IN_PROGRESS' }); }} className="btn btn-sm btn-secondary">بدء العمل</button>}
-                                                {rec.status === 'COMPLETED' && rec.cost > 0 && !rec.expenseId && !rec.invoiceId && <button onClick={(e) => { e.stopPropagation(); handleOpenModal(rec); }} className="btn btn-sm btn-primary">إنشاء مصروف/فاتورة</button>}
-                                                <div className="opacity-0 group-hover:opacity-100 transition-opacity" onClick={(e) => e.stopPropagation()}>
+                                                {rec.status === 'NEW' && <button onClick={(e) => { e.stopPropagation(); dataService.update('maintenanceRecords', rec.id, { status: 'IN_PROGRESS' }); }} className="btn btn-sm btn-secondary text-[10px] px-2 py-1">بدء العمل</button>}
+                                                {rec.status === 'COMPLETED' && rec.cost > 0 && !rec.expenseId && !rec.invoiceId && <button onClick={(e) => { e.stopPropagation(); handleOpenModal(rec); }} className="btn btn-sm bg-primary/10 text-primary hover:bg-primary/20 text-[10px] px-2 py-1">إنشاء مصروف/فاتورة</button>}
+                                                <div onClick={(e) => e.stopPropagation()}>
                                                     <ActionsMenu items={[ EditAction(() => handleOpenModal(rec)), PrintAction(() => setPrintingRecord(rec)), DeleteAction(() => handleDelete(rec.id))]} />
                                                 </div>
                                             </div>
@@ -145,9 +151,17 @@ const Maintenance: React.FC = () => {
                                     </tr>
                                 );
                             })}
+                            {recordsWithDetails.length === 0 && (
+                                <tr>
+                                    <td colSpan={6} className="px-4 py-16 text-center">
+                                        <Wrench size={48} className="mx-auto text-muted-foreground/30 mb-3" />
+                                        <h3 className="text-lg font-semibold text-heading mb-1">لا توجد طلبات صيانة</h3>
+                                        <p className="text-muted-foreground text-sm">لم يتم العثور على طلبات صيانة مطابقة.</p>
+                                    </td>
+                                </tr>
+                            )}
                         </tbody>
                     </table>
-                    {recordsWithDetails.length === 0 && (<div className="text-center py-16"><Wrench size={52} className="mx-auto text-muted" /><h3 className="mt-4 text-xl font-semibold text-heading">لا توجد طلبات صيانة مطابقة</h3></div>)}
                 </div>
             </Card>
             <MaintenanceForm isOpen={isModalOpen} onClose={handleCloseModal} record={editingRecord} />
